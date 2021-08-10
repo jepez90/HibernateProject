@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name = "hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <property name = "connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name = "connection.username">user_test</property>
+        <property name = "connection.password">admin</property>
+        <property name = "dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <property name = "hibernate.show_sql">true</property>
+        <property name = "connection.url">
+            jdbc:mysql://localhost:3306/hibernate_test?useSSL=false
+        </property>
+        
+        <!-- Enabled Hibernated´s automaticsession context manegement -->
+        <property name="current_session_context_class">thread</property> 
+        
+        <!-- create / create-drop / update the tables in database-->
+        <property name="hbm2ddl.auto">create</property> 
+
+    </session-factory>
+</hibernate-configuration>
