@@ -20,6 +20,7 @@ import org.hibernate.annotations.ColumnDefault;
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
     @NamedQuery(name = "User.findByIsAdmin", query = "SELECT u FROM User u WHERE u.isAdmin = :isAdmin"),
+    @NamedQuery(name = "User.findByByDoc", query = "SELECT u FROM User u WHERE u.document = :document"),
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
     @NamedQuery(name = "User.findByNick", query = "SELECT u FROM User u WHERE u.nick = :nick")})
 public class User implements Serializable {
@@ -58,6 +59,14 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
     }
 
     public int getIsAdmin() {
@@ -132,7 +141,7 @@ public class User implements Serializable {
             return false;
         }
         final User other = (User) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return Objects.equals(this.nick, other.nick);
@@ -141,16 +150,20 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name="id", nullable = false)
     private Integer id;
 
     @Basic(optional = false)
-    @Column(nullable = false, length = 64, unique=true)
+    @Column(name="nick", nullable = false, length = 64, unique = true)
     private String nick;
 
     @Basic(optional = false)
-    @Column(nullable = false, length = 128, unique=true)
+    @Column(name="name", nullable = false, length = 128)
     private String name;
+
+    @Basic(optional = false)
+    @Column(name="document", nullable = false, length = 20, unique = true)
+    private String document;
 
     @Basic(optional = false)
     @Column(name = "is_admin", nullable = false)
@@ -158,7 +171,7 @@ public class User implements Serializable {
     private int isAdmin;
 
     @Basic(optional = false)
-    @Column(nullable = false, length = 64)
+    @Column(name="password", nullable = false, length = 64)
     private String password;
 
     @Column(name = "old_password", length = 64)

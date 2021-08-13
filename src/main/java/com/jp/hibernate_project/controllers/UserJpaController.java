@@ -106,12 +106,12 @@ public class UserJpaController implements Serializable {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(User.class));
             Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
+            if (!all) {                q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
         } finally {
+
             em.close();
         }
     }
@@ -124,6 +124,28 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
+    
+    
+    public User findUserByNick(String nick) {
+        EntityManager em = getEntityManager();
+        try {
+            System.out.println(em.createNamedQuery("User.findByNick"));
+            return new User();
+            //return em.find(User.class, id);
+        } finally {
+            em.close();
+        }
+    }
+    
+    public User findUserByDoc(String doc) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(User.class, 1);
+        } finally {
+            em.close();
+        }
+    }
+
 
     public int getUserCount() {
         EntityManager em = getEntityManager();

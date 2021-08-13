@@ -21,13 +21,14 @@ public class NewMain {
 
         new NewMain();
     }
+    
     private EntityManagerFactory em;
     private Scanner console;
 
     public NewMain() {
         while (true) {
             console = new Scanner(System.in);
-            String[] operaciones = {"Crear", "Mostrat", "Borrar", "Actualizar", "Mostrar"};
+            String[] operaciones = {"Crear", "Mostrar", "Borrar", "Actualizar"};
             String prompt = "";
             for (int i = 0; i < operaciones.length; i++) {
                 if (i != 0) {
@@ -94,6 +95,7 @@ public class NewMain {
 
         //creates a new user
         User newUser = new User(userNick, userName, User.encodePass(userPass));
+        newUser.setDocument("sdfghdjfk");
 
         // Retrieve an application managed entity manager
         em = EMUtil.getFactory();
@@ -113,15 +115,35 @@ public class NewMain {
     }
 
     private void mostrar() {
+        int opcion;
+        do {
+            System.out.println("Que desa ver:\n1 Un usario por nombre\n2 Todos los usuarios\n0 volver al menu anterior");
+            opcion = console.nextInt();
 
-        em = EMUtil.getFactory();
-        UserJpaController controller = new UserJpaController(em);
-        List<User> users = controller.findUserEntities();
-        users.forEach(user -> {
-            System.out.println(user);
-        });
+            if (opcion == 1) {
+                System.out.println("Escriba el nombre del usuario a mostrar:");
+                String name = console.next();
+
+                break;
+            } else if (opcion == 2) {
+                em = EMUtil.getFactory();
+                UserJpaController controller = new UserJpaController(em);
+                List<User> users = controller.findUserEntities();
+                users.forEach(user -> {
+                    System.out.println(user);
+                });
+                break;
+            } else if (opcion != 0){
+                System.out.println("Error, opcion no valida");
+            }
+        } while (opcion != 1 && opcion != 2 && opcion != 0);
+
         System.out.println();
+        
     }
+    
+
+    
 
     private void borrar() {
 
